@@ -1,8 +1,7 @@
 package services
 
 import (
-	"encoding/json"
-	"log"
+	"filmoteka/pgk/jwt"
 	"net/http"
 )
 
@@ -13,29 +12,29 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := r.Header.Get("Authorization")
-	if token != "" {
-		resp := make(map[string]string, 1)
-		resp["error"] = "Already authorized"
-
-		jsonResp, err := json.Marshal(resp)
-		if err != nil {
-			log.Println("Marshal error: " + err.Error())
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("Internal Server Error"))
-			return
-		}
-
-		w.WriteHeader(http.StatusForbidden)
-		w.Write(jsonResp)
+	path := r.URL.Path
+	status, err := jwt.CheckAuthorization(token, path)
+	if err != nil {
+		w.WriteHeader(status)
+		w.Write(err)
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(status)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+	token := r.Header.Get("Authorization")
+	path := r.URL.Path
+	status, err := jwt.CheckAuthorization(token, path)
+	if err != nil {
+		w.WriteHeader(status)
+		w.Write(err)
 		return
 	}
 }
