@@ -3,16 +3,19 @@ package jwt
 import (
 	"filmoteka/internal/models"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-func GenerateToken(id string, roles []string) (string, error) {
+func GenerateToken(id int, roles []string) (string, error) {
+	strID := strconv.Itoa(id)
+
 	var claims = &models.JWTClaims{
 		Role: roles,
 		StandardClaims: jwt.StandardClaims{
-			Subject:   id,
+			Subject:   strID,
 			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 		},
 	}
