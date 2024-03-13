@@ -7,9 +7,22 @@ import (
 )
 
 func CheckAuthorization(token string, path string) (int, []byte) {
+	resp := make(map[string]string, 1)
+
 	if token != "" && (path == "/sign-up" || path == "/sign-in" || path == "/login" || path == "/registration") {
-		resp := make(map[string]string, 1)
 		resp["error"] = "Already authorized"
+
+		jsonResp, err := json.Marshal(resp)
+		if err != nil {
+			log.Println("Marshal error: " + err.Error())
+			return http.StatusInternalServerError, []byte("Internal Server Error")
+		}
+
+		return http.StatusForbidden, jsonResp
+	}
+
+	if token == "" && path == "/logout" {
+		resp["error"] = "Not authorized"
 
 		jsonResp, err := json.Marshal(resp)
 		if err != nil {
