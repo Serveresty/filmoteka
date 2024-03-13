@@ -8,5 +8,4 @@ type Film struct {
 	Description string    `json:"description"`
 	ReleaseDate time.Time `json:"release_date"`
 	Rate        float64   `json:"rate"`
-	Actors      []Actor   `json:"actors"`
 }

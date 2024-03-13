@@ -7,5 +7,4 @@ type Actor struct {
 	Name      string    `json:"name"`
 	Gender    rune      `json:"gender"`
 	BirthDate time.Time `json:"birth_date"`
-	Films     []Film    `json:"films"`
 }
