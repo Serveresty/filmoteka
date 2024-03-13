@@ -8,14 +8,14 @@ import (
 
 func GetFilms(filter string) ([]models.FilmToActor, error) {
 	var query string = `
-		SELECT DISTINCT f.*, a.*
-		FROM films f
-		JOIN actors_films af ON f.film_id = af.film_id 
+		SELECT DISTINCT mf.*, a.*
+		FROM films mf
+		JOIN actors_films af ON mf.film_id = af.film_id 
 		JOIN actors a ON af.actor_id = a.actor_id
 		`
 
 	if filter != "" {
-		query += ` WHERE LOWER(f.name) LIKE LOWER($1) OR LOWER(a.name) LIKE LOWER($1)`
+		query += ` WHERE LOWER(mf.name) LIKE LOWER('%` + filter + `%') OR LOWER(a.name) LIKE LOWER('%` + filter + `%')`
 	}
 	query += `;`
 
@@ -23,7 +23,7 @@ func GetFilms(filter string) ([]models.FilmToActor, error) {
 	var err error
 
 	if filter != "" {
-		rows, err = DB.Query(query, filter)
+		rows, err = DB.Query(query)
 		if err != nil {
 			return nil, err
 		}
