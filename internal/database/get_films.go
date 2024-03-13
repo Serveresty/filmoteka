@@ -3,9 +3,10 @@ package database
 import (
 	"database/sql"
 	"filmoteka/internal/models"
+	"fmt"
 )
 
-func GetFilms(filter string) ([]models.Film, error) {
+func GetFilms(filter string) ([]models.FilmToActor, error) {
 	var query string = `
 		SELECT DISTINCT f.*, a.*
 		FROM films f
@@ -33,8 +34,7 @@ func GetFilms(filter string) ([]models.Film, error) {
 		}
 	}
 
-	var filmsMap = make(map[*models.Film][]models.Actor)
-	var films []models.Film
+	var films = make(map[models.Film][]models.Actor)
 	for rows.Next() {
 		var film models.Film
 		var actors models.Actor
@@ -46,26 +46,29 @@ func GetFilms(filter string) ([]models.Film, error) {
 
 		actors.Gender = []rune(gender)[0]
 
-		if _, ok := filmsMap[&film]; !ok {
-			film.Actors = append(film.Actors, actors)
-			filmsMap[&film] = film.Actors
+		if val, ok := films[film]; ok {
+			val = append(val, actors)
+			films[film] = val
 		} else {
-			filmsMap[&film] = append(filmsMap[&film], actors)
+			films[film] = []models.Actor{actors}
 		}
 
-		// film.Actors = append(film.Actors, actors)
-		// films = append(films, film)
+		//films[&film] = append(films[&film], actors)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
+	fmt.Println(films)
 
-	for film, actors := range filmsMap {
-		film.Actors = actors
-		films = append(films, *film)
+	var result []models.FilmToActor
+	for fil, act := range films {
+		var res models.FilmToActor
+		res.Movies = fil
+		res.Actors = act
+		result = append(result, res)
 	}
 
-	return films, nil
+	return result, nil
 }
 
 /*
