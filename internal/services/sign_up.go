@@ -67,7 +67,7 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 
 	err1 = database.CreateNewUser(&user)
 	if err1 != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error user already created"))
 		return
 	}
