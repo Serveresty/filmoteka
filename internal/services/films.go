@@ -4,11 +4,22 @@ import (
 	"encoding/json"
 	"filmoteka/internal/database"
 	"filmoteka/pkg/jwt"
+	"filmoteka/pkg/utils"
 	"fmt"
 	"net/http"
 )
 
 func GetFilms(w http.ResponseWriter, r *http.Request) {
+	var sortBy string
+	var direction string
+	if r.URL.Path == "/films" {
+		sortBy = r.URL.Query().Get("sort")
+		direction = r.URL.Query().Get("direction")
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	if r.Method != "GET" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
@@ -31,6 +42,8 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	films = utils.SortFilms(films, sortBy, direction)
+
 	jsonResp, err1 := json.Marshal(films)
 	if err1 != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -44,8 +57,12 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 
 func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 	var filter string
+	var sortBy string
+	var direction string
 	if r.URL.Path == "/films/search" {
 		filter = r.URL.Query().Get("filter")
+		sortBy = r.URL.Query().Get("sort")
+		direction = r.URL.Query().Get("direction")
 	} else {
 		w.WriteHeader(http.StatusNotFound)
 		return
@@ -78,6 +95,8 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("no films found by filter"))
 		return
 	}
+
+	films = utils.SortFilms(films, sortBy, direction)
 
 	jsonResp, err1 := json.Marshal(films)
 	if err1 != nil {
