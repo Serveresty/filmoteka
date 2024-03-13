@@ -3,20 +3,29 @@ package database
 import (
 	"database/sql"
 	"filmoteka/internal/models"
-	"fmt"
 )
 
 func GetFilms(filter string) ([]models.FilmToActor, error) {
-	var query string = `
-		SELECT DISTINCT mf.*, a.*
-		FROM films mf
-		JOIN actors_films af ON mf.film_id = af.film_id 
-		JOIN actors a ON af.actor_id = a.actor_id
-		`
-
+	var param1, param2 string
 	if filter != "" {
-		query += ` WHERE LOWER(mf.name) LIKE LOWER('%` + filter + `%') OR LOWER(a.name) LIKE LOWER('%` + filter + `%')`
+		param1 = ` AND (LOWER(mf.name) LIKE LOWER('%` + filter + `%') OR LOWER(a.name) LIKE LOWER('%` + filter + `%'))`
+		param2 = ` AND LOWER(mf.name) LIKE LOWER('%` + filter + `%')`
 	}
+
+	var query string = `
+		SELECT mf.*, a.actor_id, a.name AS actor_name, a.gender, a.birth_date
+		FROM films mf
+		LEFT JOIN actors_films af ON mf.film_id = af.film_id 
+		LEFT JOIN actors a ON af.actor_id = a.actor_id
+		WHERE af.actor_id IS NOT NULL
+	` + param1
+
+	query += `
+		UNION ALL
+		SELECT mf.*, 0 as actor_id, '' as actor_name, '' as gender, '0001-01-01' as birth_date
+		FROM films mf
+		WHERE mf.film_id NOT IN (SELECT film_id FROM actors_films)
+	` + param2
 	query += `;`
 
 	var rows *sql.Rows
@@ -58,7 +67,6 @@ func GetFilms(filter string) ([]models.FilmToActor, error) {
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-	fmt.Println(films)
 
 	var result []models.FilmToActor
 	for fil, act := range films {
