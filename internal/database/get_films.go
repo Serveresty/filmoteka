@@ -44,7 +44,7 @@ func GetFilms(filter string) ([]models.FilmToActor, error) {
 			return nil, err
 		}
 
-		actors.Gender = []rune(gender)[0]
+		actors.Gender = gender
 
 		if val, ok := films[film]; ok {
 			val = append(val, actors)
