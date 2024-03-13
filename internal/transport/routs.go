@@ -13,4 +13,5 @@ func Routes(mux *http.ServeMux) {
 	//POST
 	mux.HandleFunc("/registration", services.Registration)
 	mux.HandleFunc("/login", services.Login)
+	mux.HandleFunc("/logout", services.Logout)
 }
