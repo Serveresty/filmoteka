@@ -27,17 +27,18 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := r.Header.Get("Authorization")
-	_, err1 := jwt.ParseToken(token)
-	if err1 != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("error not valid token"))
-		return
-	}
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		w.WriteHeader(status)
 		w.Write(err)
+		return
+	}
+
+	_, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
 		return
 	}
 
@@ -80,18 +81,18 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := r.Header.Get("Authorization")
-	_, err1 := jwt.ParseToken(token)
-	if err1 != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("error not valid token"))
-		return
-	}
-
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		w.WriteHeader(status)
 		w.Write(err)
+		return
+	}
+
+	_, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
 		return
 	}
 
@@ -133,17 +134,18 @@ func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := r.Header.Get("Authorization")
-	claims, err1 := jwt.ParseToken(token)
-	if err1 != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("error not valid token"))
-		return
-	}
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		w.WriteHeader(status)
 		w.Write(err)
+		return
+	}
+
+	claims, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
 		return
 	}
 
@@ -195,17 +197,18 @@ func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := r.Header.Get("Authorization")
-	claims, err1 := jwt.ParseToken(token)
-	if err1 != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("error not valid token"))
-		return
-	}
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		w.WriteHeader(status)
 		w.Write(err)
+		return
+	}
+
+	claims, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
 		return
 	}
 
@@ -228,17 +231,18 @@ func DeleteFilm(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := r.Header.Get("Authorization")
-	claims, err1 := jwt.ParseToken(token)
-	if err1 != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("error not valid token"))
-		return
-	}
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		w.WriteHeader(status)
 		w.Write(err)
+		return
+	}
+
+	claims, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
 		return
 	}
 

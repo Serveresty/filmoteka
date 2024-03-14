@@ -21,7 +21,7 @@ func CheckAuthorization(token string, path string) (int, []byte) {
 		return http.StatusForbidden, jsonResp
 	}
 
-	if token == "" && path == "/logout" {
+	if token == "" {
 		resp["error"] = "Not authorized"
 
 		jsonResp, err := json.Marshal(resp)
