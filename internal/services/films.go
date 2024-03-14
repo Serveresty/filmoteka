@@ -3,9 +3,10 @@ package services
 import (
 	"encoding/json"
 	"filmoteka/internal/database"
+	"filmoteka/internal/models"
 	"filmoteka/pkg/jwt"
 	"filmoteka/pkg/utils"
-	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -57,7 +58,7 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(jsonResp))
+	w.Write(jsonResp)
 }
 
 func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
@@ -98,7 +99,6 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 	if err1 != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("error while getting films"))
-		fmt.Println(err1)
 		return
 	}
 
@@ -118,17 +118,133 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(jsonResp))
+	w.Write(jsonResp)
 }
 
 func AddNewFilm(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/new-film" {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
 
+	if r.Method != "POST" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+	token := r.Header.Get("Authorization")
+	claims, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
+		return
+	}
+	path := r.URL.Path
+	status, err := jwt.CheckAuthorization(token, path)
+	if err != nil {
+		w.WriteHeader(status)
+		w.Write(err)
+		return
+	}
+
+	if !jwt.HasUserAccess(*claims) {
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte("error access denied"))
+		return
+	}
+
+	body, err1 := io.ReadAll(r.Body)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error while reading request body"))
+		return
+	}
+
+	var filmToActor models.FilmToActor
+	if err1 := json.Unmarshal(body, &filmToActor); err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error while parsing json"))
+		return
+	}
+
+	errs := database.SetNewFilm(filmToActor)
+	if errs != nil {
+		errResp, err1 := json.Marshal(errs)
+		if err1 != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
+
+		w.WriteHeader(http.StatusPartialContent)
+		w.Write(errResp)
+	}
+
+	w.WriteHeader(http.StatusCreated)
 }
 
 func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/edit-film" {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
 
+	if r.Method != "PUT" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+	token := r.Header.Get("Authorization")
+	claims, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
+		return
+	}
+	path := r.URL.Path
+	status, err := jwt.CheckAuthorization(token, path)
+	if err != nil {
+		w.WriteHeader(status)
+		w.Write(err)
+		return
+	}
+
+	if !jwt.HasUserAccess(*claims) {
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte("error access denied"))
+		return
+	}
 }
 
 func DeleteFilm(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/delete-film" {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
 
+	if r.Method != "DELETE" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+	token := r.Header.Get("Authorization")
+	claims, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
+		return
+	}
+	path := r.URL.Path
+	status, err := jwt.CheckAuthorization(token, path)
+	if err != nil {
+		w.WriteHeader(status)
+		w.Write(err)
+		return
+	}
+
+	if !jwt.HasUserAccess(*claims) {
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte("error access denied"))
+		return
+	}
 }
