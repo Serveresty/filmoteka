@@ -180,6 +180,7 @@ func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 
 		w.WriteHeader(http.StatusPartialContent)
 		w.Write(errResp)
+		return
 	}
 
 	w.WriteHeader(http.StatusCreated)

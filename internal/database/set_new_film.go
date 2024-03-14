@@ -3,26 +3,26 @@ package database
 import (
 	"database/sql"
 	"filmoteka/internal/models"
-	"fmt"
 )
 
-func SetNewFilm(filmToActor models.FilmToActor) []error {
+func SetNewFilm(filmToActor models.FilmToActor) []models.ErrorInfo {
 	var film models.Film
+	var errorsPull []models.ErrorInfo
 	row := DB.QueryRow(`
 		SELECT * FROM films WHERE name=$1 AND description=$2 AND release_date=$3 AND rate=$4`,
 		filmToActor.Movies.Title, filmToActor.Movies.Description, filmToActor.Movies.ReleaseDate, filmToActor.Movies.Rate)
 
 	err := row.Scan(&film)
 	if err != sql.ErrNoRows {
-		return []error{fmt.Errorf("error film already has in table")}
+		errorsPull = append(errorsPull, models.ErrorInfo{Message: "film already has in table"})
+		return errorsPull
 	}
 
 	var filmId int
-	err = DB.QueryRow(`
-		INSERT INTO films (name, description, release_date, rate) VALUES ($1, $2, $3, $4) RETURNING film_id`,
-		filmToActor.Movies.Title, filmToActor.Movies.Description, filmToActor.Movies.ReleaseDate, filmToActor.Movies.Rate).Scan(&filmId)
+	err = DB.QueryRow(`INSERT INTO films (name, description, release_date, rate) VALUES ($1, $2, $3, $4) RETURNING film_id`, filmToActor.Movies.Title, filmToActor.Movies.Description, filmToActor.Movies.ReleaseDate, filmToActor.Movies.Rate).Scan(&filmId)
 	if err != nil {
-		return []error{err}
+		errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
+		return errorsPull
 	}
 
 	var actorsIds []int
@@ -43,16 +43,16 @@ func SetNewFilm(filmToActor models.FilmToActor) []error {
 			INSERT INTO actors (name, gender, birth_date) VALUES ($1, $2, $3) RETURNING actor_id`,
 			val.Name, val.Gender, val.BirthDate).Scan(&actorId)
 		if err != nil {
-			return []error{err}
+			errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
+			return errorsPull
 		}
-		actorsIds = append(actorsIds, actor.ID)
+		actorsIds = append(actorsIds, actorId)
 	}
 
-	var errorsPull []error
 	for _, act := range actorsIds {
-		_, err = DB.Exec(`INSERT INTO actors_films (actor_id, film_id) VALUES ($1, $2)`, filmId, act)
+		_, err = DB.Exec(`INSERT INTO actors_films (actor_id, film_id) VALUES ($1, $2)`, act, filmId)
 		if err != nil {
-			errorsPull = append(errorsPull, err)
+			errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
 		}
 	}
 
