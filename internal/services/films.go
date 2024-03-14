@@ -26,6 +26,12 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := r.Header.Get("Authorization")
+	_, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
+		return
+	}
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
@@ -38,7 +44,6 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 	if err1 != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("error while getting films"))
-		fmt.Println(err1)
 		return
 	}
 
@@ -74,6 +79,13 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := r.Header.Get("Authorization")
+	_, err1 := jwt.ParseToken(token)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error not valid token"))
+		return
+	}
+
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
