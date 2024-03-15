@@ -186,6 +186,10 @@ func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+func GetFilmById(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/edit-film" {
 		w.WriteHeader(http.StatusNotFound)
@@ -218,6 +222,36 @@ func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("error access denied"))
 		return
 	}
+
+	body, err1 := io.ReadAll(r.Body)
+	if err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error while reading request body"))
+		return
+	}
+
+	var filmToActor models.FilmToActor
+	if err1 := json.Unmarshal(body, &filmToActor); err1 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error while parsing json"))
+		return
+	}
+
+	errr := database.EditFilmInfo(filmToActor)
+	if errr != nil {
+		errResp, err1 := json.Marshal(errr)
+		if err1 != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
+
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(errResp)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }
 
 func DeleteFilm(w http.ResponseWriter, r *http.Request) {
