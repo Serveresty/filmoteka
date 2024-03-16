@@ -34,7 +34,6 @@ func Routes(mux *http.ServeMux) {
 
 	//GET actor
 	mux.HandleFunc("/actors", services.GetActors)
-	mux.HandleFunc("/actors/search", services.GetActorsByFilter)
 
 	//POST actor
 	mux.HandleFunc("/new-actor", services.AddNewActor)
