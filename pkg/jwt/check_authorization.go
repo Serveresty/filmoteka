@@ -15,7 +15,7 @@ func CheckAuthorization(token string, path string) (int, []byte) {
 		jsonResp, err := json.Marshal(resp)
 		if err != nil {
 			log.Println("Marshal error: " + err.Error())
-			return http.StatusInternalServerError, []byte("Internal Server Error")
+			return http.StatusInternalServerError, []byte("error while marshal response")
 		}
 
 		return http.StatusForbidden, jsonResp
@@ -25,7 +25,7 @@ func CheckAuthorization(token string, path string) (int, []byte) {
 		jsonResp, err := json.Marshal(resp)
 		if err != nil {
 			log.Println("Marshal error: " + err.Error())
-			return http.StatusInternalServerError, []byte("Internal Server Error")
+			return http.StatusInternalServerError, []byte("error while marshal response")
 		}
 
 		return http.StatusForbidden, jsonResp
