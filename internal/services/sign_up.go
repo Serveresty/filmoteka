@@ -88,7 +88,7 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 
 	hashPass, err1 := jwt.HashPassword(user.Password)
 	if err1 != nil {
-		logger.InfoLogger.Println(
+		logger.WarningLogger.Println(
 			r.Method + " | " + r.URL.Path +
 				" | Status: " + http.StatusText(http.StatusInternalServerError) +
 				" | Error: " + err1.Error() +
@@ -113,5 +113,6 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusCreated))
 	w.WriteHeader(http.StatusCreated)
 }
