@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"filmoteka/internal/database"
 	"filmoteka/internal/transport"
+	"filmoteka/pkg/logger"
 	"fmt"
 	"log"
 	"net/http"
@@ -25,6 +26,11 @@ func main() {
 }
 
 func run() error {
+	err := logger.Init(os.Getenv("LOGGER_FILE_PATH") + ".log")
+	if err != nil {
+		return err
+	}
+
 	db, err := dbInit()
 	if err != nil {
 		return fmt.Errorf("error with db connection:%v", err)
@@ -44,10 +50,12 @@ func run() error {
 	port := os.Getenv("SERVER_PORT")
 	addr := host + port
 
+	logger.InfoLogger.Println("server starts on: " + addr)
 	err = http.ListenAndServe(addr, mux)
 	if err != nil {
-		fmt.Println("Ошибка при запуске сервера:", err)
+		logger.ErrorLogger.Println("error while starting server: " + err.Error())
 	}
+
 	return nil
 }
 
