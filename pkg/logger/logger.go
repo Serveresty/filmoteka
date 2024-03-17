@@ -21,7 +21,7 @@ func Init(logFilePath string) error {
 	fileWriter := io.Writer(file)
 	InfoLogger = log.New(fileWriter, "INFO: ", log.Ldate|log.Ltime)
 	ErrorLogger = log.New(fileWriter, "ERROR: ", log.Ldate|log.Ltime)
-	WarningLogger = log.New(fileWriter, "Warning: ", log.Ldate|log.Ltime)
+	WarningLogger = log.New(fileWriter, "WARNING: ", log.Ldate|log.Ltime)
 
 	return nil
 }
