@@ -10,6 +10,12 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
 
+	if r.URL.Path != "/logout" {
+		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /logout")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	if r.Method != "POST" {
 		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected POST for URL: " + r.URL.Path)
 		w.WriteHeader(http.StatusMethodNotAllowed)

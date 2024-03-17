@@ -12,6 +12,12 @@ import (
 func SignUp(w http.ResponseWriter, r *http.Request) {
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
 
+	if r.URL.Path != "/sign-up" {
+		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /sign-up")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	if r.Method != "GET" {
 		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected GET for URL: " + r.URL.Path)
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -39,6 +45,12 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 func Registration(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+
+	if r.URL.Path != "/registration" {
+		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /registration")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
 
 	var user models.User
 

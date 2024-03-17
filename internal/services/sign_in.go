@@ -12,6 +12,12 @@ import (
 func SignIn(w http.ResponseWriter, r *http.Request) {
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
 
+	if r.URL.Path != "/sign-in" {
+		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /sign-in")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	if r.Method != "GET" {
 		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected GET for URL: " + r.URL.Path)
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -39,6 +45,12 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 func Login(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+
+	if r.URL.Path != "/login" {
+		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /login")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
 
 	var user models.User
 
