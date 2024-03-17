@@ -11,6 +11,7 @@ import (
 
 // @Summary SignUp Page
 // @Description This endpoint for sign-up page
+// @Produce json
 // @Success 200
 // @Failure 403
 // @Failure 404
@@ -37,12 +38,19 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		} else {
-			logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		}
+
+		jsonResp, err := json.Marshal(err)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
 		}
 		w.WriteHeader(status)
-		w.Write(err)
+		w.Write(jsonResp)
 		return
 	}
 
@@ -83,13 +91,20 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(status) +
-				" | Details: " + string(err[:]))
+		if status == http.StatusInternalServerError {
+			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		} else {
+			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		}
 
+		jsonResp, err := json.Marshal(err)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
 		w.WriteHeader(status)
-		w.Write(err)
+		w.Write(jsonResp)
 		return
 	}
 

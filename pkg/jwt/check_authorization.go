@@ -1,34 +1,38 @@
 package jwt
 
 import (
-	"encoding/json"
-	"log"
+	"filmoteka/internal/models"
 	"net/http"
 )
 
-func CheckAuthorization(token string, path string) (int, []byte) {
+func CheckAuthorization(token string, path string) (int, []models.ErrorInfo) {
 	resp := make(map[string]string, 1)
+	var errorsPull []models.ErrorInfo
 
 	if token != "" && (path == "/sign-up" || path == "/sign-in" || path == "/login" || path == "/registration") {
 		resp["error"] = "Already authorized"
 
-		jsonResp, err := json.Marshal(resp)
-		if err != nil {
-			log.Println("Marshal error: " + err.Error())
-			return http.StatusInternalServerError, []byte("error while marshal response")
-		}
+		errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "Already authorized"})
+		// jsonResp, err := json.Marshal(resp)
+		// if err != nil {
+		// 	log.Println("Marshal error: " + err.Error())
+		// 	errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "error while marshal response"})
+		// 	return http.StatusInternalServerError, errorsPull
+		// }
 
-		return http.StatusForbidden, jsonResp
+		return http.StatusForbidden, errorsPull
 	} else if token == "" && !(path == "/sign-up" || path == "/sign-in" || path == "/login" || path == "/registration") {
 		resp["error"] = "Not authorized"
 
-		jsonResp, err := json.Marshal(resp)
-		if err != nil {
-			log.Println("Marshal error: " + err.Error())
-			return http.StatusInternalServerError, []byte("error while marshal response")
-		}
+		errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "Not authorized"})
+		// jsonResp, err := json.Marshal(resp)
+		// if err != nil {
+		// 	log.Println("Marshal error: " + err.Error())
+		// 	errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "error while marshal response"})
+		// 	return http.StatusInternalServerError, errorsPull
+		// }
 
-		return http.StatusUnauthorized, jsonResp
+		return http.StatusUnauthorized, errorsPull
 	}
 
 	return http.StatusOK, nil

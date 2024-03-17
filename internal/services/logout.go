@@ -1,6 +1,7 @@
 package services
 
 import (
+	"encoding/json"
 	"filmoteka/pkg/jwt"
 	"filmoteka/pkg/logger"
 	"net/http"
@@ -35,13 +36,20 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(status) +
-				" | Details: " + string(err[:]))
+		if status == http.StatusInternalServerError {
+			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		} else {
+			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		}
 
+		jsonResp, err := json.Marshal(err)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
 		w.WriteHeader(status)
-		w.Write(err)
+		w.Write(jsonResp)
 		return
 	}
 

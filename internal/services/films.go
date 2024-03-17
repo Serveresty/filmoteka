@@ -49,13 +49,19 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		} else {
-			logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		}
 
+		jsonResp, err := json.Marshal(err)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
 		w.WriteHeader(status)
-		w.Write(err)
+		w.Write(jsonResp)
 		return
 	}
 
@@ -147,13 +153,19 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		} else {
-			logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		}
 
+		jsonResp, err := json.Marshal(err)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
 		w.WriteHeader(status)
-		w.Write(err)
+		w.Write(jsonResp)
 		return
 	}
 
@@ -253,13 +265,19 @@ func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		} else {
-			logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		}
 
+		jsonResp, err := json.Marshal(err)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
 		w.WriteHeader(status)
-		w.Write(err)
+		w.Write(jsonResp)
 		return
 	}
 
@@ -384,13 +402,19 @@ func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		} else {
-			logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		}
 
+		jsonResp, err := json.Marshal(err)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
 		w.WriteHeader(status)
-		w.Write(err)
+		w.Write(jsonResp)
 		return
 	}
 
@@ -515,13 +539,19 @@ func DeleteFilm(w http.ResponseWriter, r *http.Request) {
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
 		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		} else {
-			logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status) + " | Details: " + string(err[:]))
+			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
 		}
 
+		jsonResp, err := json.Marshal(err)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("error while marhal errs"))
+			return
+		}
 		w.WriteHeader(status)
-		w.Write(err)
+		w.Write(jsonResp)
 		return
 	}
 
