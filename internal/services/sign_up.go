@@ -9,6 +9,14 @@ import (
 	"net/http"
 )
 
+// @Summary SignUp Page
+// @Description This endpoint for sign-up page
+// @Success 200
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /sign-up [get]
 func SignUp(w http.ResponseWriter, r *http.Request) {
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
 
@@ -42,6 +50,17 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(status)
 }
 
+// @Summary Registration
+// @Description This endpoint for registration
+// @Accept json
+// @Produce json
+// @Success 200
+// @Failure 400
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /registration [post]
 func Registration(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)

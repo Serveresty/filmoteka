@@ -9,6 +9,14 @@ import (
 	"net/http"
 )
 
+// @Summary SignIn Page
+// @Description This endpoint for sign-in page
+// @Success 200
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /sign-in [get]
 func SignIn(w http.ResponseWriter, r *http.Request) {
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
 
@@ -42,6 +50,17 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(status)
 }
 
+// @Summary Login
+// @Description This endpoint for login
+// @Accept json
+// @Produce json
+// @Success 200
+// @Failure 400
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /login [post]
 func Login(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)

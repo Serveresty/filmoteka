@@ -6,6 +6,15 @@ import (
 	"net/http"
 )
 
+// @Summary Logout
+// @Description This endpoint for Logout
+// @Produce json
+// @Success 200
+// @Failure 401
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /logout [post]
 func Logout(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
