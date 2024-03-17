@@ -28,7 +28,7 @@ func CheckAuthorization(token string, path string) (int, []byte) {
 			return http.StatusInternalServerError, []byte("error while marshal response")
 		}
 
-		return http.StatusForbidden, jsonResp
+		return http.StatusUnauthorized, jsonResp
 	}
 
 	return http.StatusOK, nil
