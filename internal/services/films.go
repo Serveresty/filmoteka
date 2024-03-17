@@ -13,6 +13,8 @@ import (
 )
 
 // @Summary GetFilms
+// @Security ApiKeyAuth
+// @Tags films
 // @Description This endpoint for getting films
 // @Produce json
 // @Success 200 {string} string "JSON с фильмами"
@@ -115,6 +117,8 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary GetFilmsByFilter
+// @Security ApiKeyAuth
+// @Tags films
 // @Description This endpoint for getting films by filter
 // @Produce json
 // @Success 200 {string} string "JSON с фильмами"
@@ -231,6 +235,8 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary AddNewFilm
+// @Security ApiKeyAuth
+// @Tags films
 // @Description This endpoint for adding new film
 // @Accept json
 // @Produce json
@@ -368,6 +374,8 @@ func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary EditInfoFilm
+// @Security ApiKeyAuth
+// @Tags films
 // @Description This endpoint for edit film's info
 // @Accept json
 // @Produce json
@@ -505,6 +513,8 @@ func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary DeleteFilm
+// @Security ApiKeyAuth
+// @Tags films
 // @Description This endpoint for delete film
 // @Accept json
 // @Produce json

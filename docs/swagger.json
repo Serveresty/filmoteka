@@ -1,0 +1,747 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the filmoteka API",
+        "title": "Filmoteka API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/actors": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for getting actors",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "GetActors",
+                "responses": {
+                    "200": {
+                        "description": "JSON с актёрами",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/delete-actor": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for delete actor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "DeleteActor",
+                "responses": {
+                    "200": {
+                        "description": "Ничего"
+                    },
+                    "206": {
+                        "description": "JSON с ошибками(если такие имеются)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/delete-film": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for delete film",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "films"
+                ],
+                "summary": "DeleteFilm",
+                "responses": {
+                    "200": {
+                        "description": "Ничего"
+                    },
+                    "206": {
+                        "description": "JSON с ошибками(если такие имеются)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/edit-actor": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for edit actor's info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "EditInfoActor",
+                "responses": {
+                    "200": {
+                        "description": "Ничего"
+                    },
+                    "206": {
+                        "description": "JSON с ошибками(если такие имеются)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/edit-film": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for edit film's info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "films"
+                ],
+                "summary": "EditInfoFilm",
+                "responses": {
+                    "200": {
+                        "description": "Ничего"
+                    },
+                    "206": {
+                        "description": "JSON с ошибками(если такие имеются)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/films": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for getting films",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "films"
+                ],
+                "summary": "GetFilms",
+                "responses": {
+                    "200": {
+                        "description": "JSON с фильмами",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/films/search": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for getting films by filter",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "films"
+                ],
+                "summary": "GetFilmsByFilter",
+                "responses": {
+                    "200": {
+                        "description": "JSON с фильмами",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "This endpoint for login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login",
+                "responses": {
+                    "200": {
+                        "description": "JSON с токеном",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for Logout",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout",
+                "responses": {
+                    "200": {
+                        "description": "JSON с сообщением",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/new-actor": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for adding new actor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "AddNewActor",
+                "responses": {
+                    "201": {
+                        "description": "Ничего"
+                    },
+                    "206": {
+                        "description": "JSON с ошибками(если такие имеются)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/new-film": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "This endpoint for adding new film",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "films"
+                ],
+                "summary": "AddNewFilm",
+                "responses": {
+                    "201": {
+                        "description": "Ничего"
+                    },
+                    "206": {
+                        "description": "JSON с ошибками(если такие имеются)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/registration": {
+            "post": {
+                "description": "This endpoint for registration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Registration",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/sign-in": {
+            "get": {
+                "description": "This endpoint for sign-in page",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "SignIn Page",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "405": {
+                        "description": "Method Not Allowed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/sign-up": {
+            "get": {
+                "description": "This endpoint for sign-up page",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "SignUp Page",
+                "responses": {
+                    "200": {
+                        "description": "Ничего"
+                    },
+                    "403": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Ничего"
+                    },
+                    "405": {
+                        "description": "Ничего"
+                    },
+                    "500": {
+                        "description": "JSON с ошибками",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

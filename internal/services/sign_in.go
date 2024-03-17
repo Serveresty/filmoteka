@@ -10,6 +10,7 @@ import (
 )
 
 // @Summary SignIn Page
+// @Tags auth
 // @Description This endpoint for sign-in page
 // @Produce json
 // @Success 200
@@ -59,6 +60,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary Login
+// @Tags auth
 // @Description This endpoint for login
 // @Accept json
 // @Produce json

@@ -19,6 +19,13 @@ func init() {
 	}
 }
 
+// @title Filmoteka API
+// @version 1.0
+// @description This is the filmoteka API
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	if err := run(); err != nil {
 		log.Fatal(err)

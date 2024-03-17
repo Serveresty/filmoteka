@@ -9,6 +9,8 @@ import (
 )
 
 // @Summary Logout
+// @Security ApiKeyAuth
+// @Tags auth
 // @Description This endpoint for Logout
 // @Produce json
 // @Success 200 {string} string "JSON с сообщением"

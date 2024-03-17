@@ -10,6 +10,7 @@ import (
 )
 
 // @Summary SignUp Page
+// @Tags auth
 // @Description This endpoint for sign-up page
 // @Produce json
 // @Success 200 "Ничего"
@@ -59,6 +60,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary Registration
+// @Tags auth
 // @Description This endpoint for registration
 // @Accept json
 // @Produce json

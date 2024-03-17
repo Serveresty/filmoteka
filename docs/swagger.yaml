@@ -1,0 +1,491 @@
+info:
+  contact: {}
+  description: This is the filmoteka API
+  title: Filmoteka API
+  version: "1.0"
+paths:
+  /actors:
+    get:
+      description: This endpoint for getting actors
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON с актёрами
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetActors
+      tags:
+      - actors
+  /delete-actor:
+    delete:
+      consumes:
+      - application/json
+      description: This endpoint for delete actor
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ничего
+        "206":
+          description: JSON с ошибками(если такие имеются)
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteActor
+      tags:
+      - actors
+  /delete-film:
+    delete:
+      consumes:
+      - application/json
+      description: This endpoint for delete film
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ничего
+        "206":
+          description: JSON с ошибками(если такие имеются)
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteFilm
+      tags:
+      - films
+  /edit-actor:
+    put:
+      consumes:
+      - application/json
+      description: This endpoint for edit actor's info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ничего
+        "206":
+          description: JSON с ошибками(если такие имеются)
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: EditInfoActor
+      tags:
+      - actors
+  /edit-film:
+    put:
+      consumes:
+      - application/json
+      description: This endpoint for edit film's info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ничего
+        "206":
+          description: JSON с ошибками(если такие имеются)
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: EditInfoFilm
+      tags:
+      - films
+  /films:
+    get:
+      description: This endpoint for getting films
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON с фильмами
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetFilms
+      tags:
+      - films
+  /films/search:
+    get:
+      description: This endpoint for getting films by filter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON с фильмами
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetFilmsByFilter
+      tags:
+      - films
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint for login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON с токеном
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - auth
+  /logout:
+    post:
+      description: This endpoint for Logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON с сообщением
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Logout
+      tags:
+      - auth
+  /new-actor:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint for adding new actor
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Ничего
+        "206":
+          description: JSON с ошибками(если такие имеются)
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: AddNewActor
+      tags:
+      - actors
+  /new-film:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint for adding new film
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Ничего
+        "206":
+          description: JSON с ошибками(если такие имеются)
+          schema:
+            type: string
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "401":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: AddNewFilm
+      tags:
+      - films
+  /registration:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint for registration
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      summary: Registration
+      tags:
+      - auth
+  /sign-in:
+    get:
+      description: This endpoint for sign-in page
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+        "405":
+          description: Method Not Allowed
+        "500":
+          description: Internal Server Error
+      summary: SignIn Page
+      tags:
+      - auth
+  /sign-up:
+    get:
+      description: This endpoint for sign-up page
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ничего
+        "403":
+          description: JSON с ошибками
+          schema:
+            type: string
+        "404":
+          description: Ничего
+        "405":
+          description: Ничего
+        "500":
+          description: JSON с ошибками
+          schema:
+            type: string
+      summary: SignUp Page
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

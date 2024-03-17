@@ -3,6 +3,8 @@ package transport
 import (
 	"filmoteka/internal/services"
 	"net/http"
+
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func Routes(mux *http.ServeMux) {
@@ -43,4 +45,15 @@ func Routes(mux *http.ServeMux) {
 
 	//DELETE film
 	mux.HandleFunc("/delete-actor", services.DeleteActor)
+
+	mux.HandleFunc("/spec", handleSwaggerFile())
+	mux.HandleFunc("/docs/", httpSwagger.Handler(
+		httpSwagger.URL("/spec"),
+	))
+}
+
+func handleSwaggerFile() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "../../docs/swagger.json")
+	}
 }

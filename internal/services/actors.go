@@ -12,6 +12,8 @@ import (
 )
 
 // @Summary GetActors
+// @Security ApiKeyAuth
+// @Tags actors
 // @Description This endpoint for getting actors
 // @Produce json
 // @Success 200 {string} string "JSON с актёрами"
@@ -106,6 +108,8 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary AddNewActor
+// @Security ApiKeyAuth
+// @Tags actors
 // @Description This endpoint for adding new actor
 // @Accept json
 // @Produce json
@@ -243,6 +247,8 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary EditInfoActor
+// @Security ApiKeyAuth
+// @Tags actors
 // @Description This endpoint for edit actor's info
 // @Accept json
 // @Produce json
@@ -380,6 +386,8 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 }
 
 // @Summary DeleteActor
+// @Security ApiKeyAuth
+// @Tags actors
 // @Description This endpoint for delete actor
 // @Accept json
 // @Produce json
