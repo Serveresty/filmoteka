@@ -12,6 +12,17 @@ import (
 	"net/http"
 )
 
+// @Summary GetFilms
+// @Description This endpoint for getting films
+// @Produce json
+// @Success 200
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /films [get]
 func GetFilms(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -97,6 +108,17 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResp)
 }
 
+// @Summary GetFilmsByFilter
+// @Description This endpoint for getting films by filter
+// @Produce json
+// @Success 200
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /films/search [get]
 func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -196,6 +218,20 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResp)
 }
 
+// @Summary AddNewFilm
+// @Description This endpoint for adding new film
+// @Accept json
+// @Produce json
+// @Success 200
+// @Success 201
+// @Success 206
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /new-film [post]
 func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -314,6 +350,19 @@ func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// @Summary EditInfoFilm
+// @Description This endpoint for edit film's info
+// @Accept json
+// @Produce json
+// @Success 200
+// @Success 206
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /edit-film [put]
 func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -432,6 +481,19 @@ func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// @Summary DeleteFilm
+// @Description This endpoint for delete film
+// @Accept json
+// @Produce json
+// @Success 200
+// @Success 206
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /delete-film [delete]
 func DeleteFilm(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)

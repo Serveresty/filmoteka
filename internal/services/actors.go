@@ -11,6 +11,17 @@ import (
 	"net/http"
 )
 
+// @Summary GetActors
+// @Description This endpoint for getting actors
+// @Produce json
+// @Success 200
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /actors [get]
 func GetActors(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -88,6 +99,20 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResp)
 }
 
+// @Summary AddNewActor
+// @Description This endpoint for adding new actor
+// @Accept json
+// @Produce json
+// @Success 200
+// @Success 201
+// @Success 206
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /new-actor [post]
 func AddNewActor(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -206,6 +231,19 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// @Summary EditInfoActor
+// @Description This endpoint for edit actor's info
+// @Accept json
+// @Produce json
+// @Success 200
+// @Success 206
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /edit-actor [put]
 func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -324,6 +362,19 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// @Summary DeleteActor
+// @Description This endpoint for delete actor
+// @Accept json
+// @Produce json
+// @Success 200
+// @Success 206
+// @Failure 400
+// @Failure 401
+// @Failure 403
+// @Failure 404
+// @Failure 405
+// @Failure 500
+// @Router /delete-actor [delete]
 func DeleteActor(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
