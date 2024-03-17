@@ -14,13 +14,13 @@ import (
 // @Summary GetActors
 // @Description This endpoint for getting actors
 // @Produce json
-// @Success 200
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 {string} string "JSON с актёрами"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405	"Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /actors [get]
 func GetActors(w http.ResponseWriter, r *http.Request) {
 
@@ -109,15 +109,14 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for adding new actor
 // @Accept json
 // @Produce json
-// @Success 200
-// @Success 201
-// @Success 206
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 201 "Ничего"
+// @Success 206 {string} string "JSON с ошибками(если такие имеются)"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /new-actor [post]
 func AddNewActor(w http.ResponseWriter, r *http.Request) {
 
@@ -247,14 +246,14 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for edit actor's info
 // @Accept json
 // @Produce json
-// @Success 200
-// @Success 206
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 "Ничего"
+// @Success 206 {string} string "JSON с ошибками(если такие имеются)"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /edit-actor [put]
 func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 
@@ -384,14 +383,14 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for delete actor
 // @Accept json
 // @Produce json
-// @Success 200
-// @Success 206
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 "Ничего"
+// @Success 206 {string} string "JSON с ошибками(если такие имеются)"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /delete-actor [delete]
 func DeleteActor(w http.ResponseWriter, r *http.Request) {
 

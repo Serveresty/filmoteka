@@ -62,12 +62,12 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for login
 // @Accept json
 // @Produce json
-// @Success 200
-// @Failure 400
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 {string} string "JSON с токеном"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500	{string} string "JSON с ошибками"
 // @Router /login [post]
 func Login(w http.ResponseWriter, r *http.Request) {
 
@@ -173,8 +173,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokenMap := make(map[string]string, 1)
-	tokenMap["token"] = newToken
+	var tokenMap []models.ErrorInfo
+	tokenMap = append(tokenMap, models.ErrorInfo{Type: "token", Message: newToken})
 	jsonResp, err1 := json.Marshal(tokenMap)
 	if err1 != nil {
 		logger.WarningLogger.Println(
@@ -191,5 +191,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusOK) + " | Token: " + newToken)
 	r.Header.Set("Authorization", newToken)
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(jsonResp))
+	w.Write(jsonResp)
 }

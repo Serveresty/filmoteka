@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"filmoteka/internal/models"
 	"filmoteka/pkg/jwt"
 	"filmoteka/pkg/logger"
 	"net/http"
@@ -10,11 +11,11 @@ import (
 // @Summary Logout
 // @Description This endpoint for Logout
 // @Produce json
-// @Success 200
-// @Failure 401
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 {string} string "JSON с сообщением"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /logout [post]
 func Logout(w http.ResponseWriter, r *http.Request) {
 
@@ -44,6 +45,12 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
+			logger.WarningLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusInternalServerError) +
+					" | Error: " + err.Error() +
+					" | Details: " + "error while marshal array of errors")
+
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
@@ -55,6 +62,21 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 
 	logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusOK) + " | Detail: token removed")
 	r.Header.Del("Authorization")
+
+	var pull []models.ErrorInfo
+	pull = append(pull, models.ErrorInfo{Type: "success", Message: "token removed"})
+	jsonResp, err1 := json.Marshal(pull)
+	if err1 != nil {
+		logger.WarningLogger.Println(
+			r.Method + " | " + r.URL.Path +
+				" | Status: " + http.StatusText(http.StatusInternalServerError) +
+				" | Error: " + err1.Error() +
+				" | Details: " + "error while marshal array of errors")
+
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("error while marhal errs"))
+		return
+	}
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("token removed"))
+	w.Write(jsonResp)
 }

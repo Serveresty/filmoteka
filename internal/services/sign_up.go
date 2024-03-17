@@ -12,11 +12,11 @@ import (
 // @Summary SignUp Page
 // @Description This endpoint for sign-up page
 // @Produce json
-// @Success 200
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 "Ничего"
+// @Failure 403	{string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /sign-up [get]
 func SignUp(w http.ResponseWriter, r *http.Request) {
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -63,11 +63,11 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Failure 400
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Failure 400	{string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 403	{string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500	{string} string "JSON с ошибками"
 // @Router /registration [post]
 func Registration(w http.ResponseWriter, r *http.Request) {
 

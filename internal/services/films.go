@@ -15,13 +15,13 @@ import (
 // @Summary GetFilms
 // @Description This endpoint for getting films
 // @Produce json
-// @Success 200
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 {string} string "JSON с фильмами"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405	"Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /films [get]
 func GetFilms(w http.ResponseWriter, r *http.Request) {
 
@@ -117,13 +117,13 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 // @Summary GetFilmsByFilter
 // @Description This endpoint for getting films by filter
 // @Produce json
-// @Success 200
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 {string} string "JSON с фильмами"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405	"Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /films/search [get]
 func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 
@@ -234,15 +234,14 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for adding new film
 // @Accept json
 // @Produce json
-// @Success 200
-// @Success 201
-// @Success 206
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 201 "Ничего"
+// @Success 206 {string} string "JSON с ошибками(если такие имеются)"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /new-film [post]
 func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 
@@ -372,14 +371,14 @@ func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for edit film's info
 // @Accept json
 // @Produce json
-// @Success 200
-// @Success 206
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 "Ничего"
+// @Success 206 {string} string "JSON с ошибками(если такие имеются)"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /edit-film [put]
 func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 
@@ -509,14 +508,14 @@ func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for delete film
 // @Accept json
 // @Produce json
-// @Success 200
-// @Success 206
-// @Failure 400
-// @Failure 401
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 "Ничего"
+// @Success 206 {string} string "JSON с ошибками(если такие имеются)"
+// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 401 {string} string "JSON с ошибками"
+// @Failure 403 {string} string "JSON с ошибками"
+// @Failure 404 "Ничего"
+// @Failure 405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками"
 // @Router /delete-film [delete]
 func DeleteFilm(w http.ResponseWriter, r *http.Request) {
 
