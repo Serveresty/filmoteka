@@ -47,7 +47,7 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/delete-actor", services.DeleteActor)
 
 	mux.HandleFunc("/spec", handleSwaggerFile())
-	mux.HandleFunc("/docs/", httpSwagger.Handler(
+	mux.HandleFunc("/swagger/", httpSwagger.Handler(
 		httpSwagger.URL("/spec"),
 	))
 }
