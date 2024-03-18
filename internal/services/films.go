@@ -17,13 +17,10 @@ import (
 // @Tags films
 // @Description This endpoint for getting films
 // @Produce json
-// @Success 200 {string} string "JSON с фильмами"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405	"Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Success 200 {array} models.FilmToActor "JSON с фильмами"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /films [get]
 func GetFilms(w http.ResponseWriter, r *http.Request) {
 
@@ -121,13 +118,10 @@ func GetFilms(w http.ResponseWriter, r *http.Request) {
 // @Tags films
 // @Description This endpoint for getting films by filter
 // @Produce json
-// @Success 200 {string} string "JSON с фильмами"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405	"Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Success 200 {array} models.FilmToActor "JSON с фильмами"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /films/search [get]
 func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 
@@ -240,14 +234,12 @@ func GetFilmsByFilter(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for adding new film
 // @Accept json
 // @Produce json
+// @Param film body models.Film true "Данные фильма (используются все поля, кроме 'id')"
 // @Success 201 "Ничего"
-// @Success 206 {string} string "JSON с ошибками(если такие имеются)"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405 "Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Success 206 {array} models.ErrorInfo "JSON с ошибками(если такие имеются)"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /new-film [post]
 func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 
@@ -379,14 +371,12 @@ func AddNewFilm(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for edit film's info
 // @Accept json
 // @Produce json
+// @Param film body models.Film true "Данные фильма (используются все поля, кроме 'id')"
 // @Success 200 "Ничего"
 // @Success 206 {string} string "JSON с ошибками(если такие имеются)"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405 "Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /edit-film [put]
 func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 
@@ -518,14 +508,12 @@ func EditInfoFilm(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for delete film
 // @Accept json
 // @Produce json
+// @Param film body models.Film true "Данные фильма (используется 'id')"
 // @Success 200 "Ничего"
 // @Success 206 {string} string "JSON с ошибками(если такие имеются)"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405 "Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /delete-film [delete]
 func DeleteFilm(w http.ResponseWriter, r *http.Request) {
 

@@ -1,3 +1,66 @@
+definitions:
+  models.Actor:
+    properties:
+      birth_date:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.ActorToFilm:
+    properties:
+      actors:
+        $ref: '#/definitions/models.Actor'
+      movies:
+        items:
+          $ref: '#/definitions/models.Film'
+        type: array
+    type: object
+  models.ErrorInfo:
+    properties:
+      message:
+        type: string
+      type:
+        type: string
+    type: object
+  models.Film:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      rate:
+        type: number
+      release_date:
+        type: string
+      title:
+        type: string
+    type: object
+  models.FilmToActor:
+    properties:
+      actors:
+        items:
+          $ref: '#/definitions/models.Actor'
+        type: array
+      movies:
+        $ref: '#/definitions/models.Film'
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      password:
+        type: string
+    type: object
 info:
   contact: {}
   description: This is the filmoteka API
@@ -13,18 +76,22 @@ paths:
         "200":
           description: JSON с актёрами
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/models.ActorToFilm'
+            type: array
         "400":
           description: JSON с ошибками, либо строка(в зависимости от возвращающего
             метода)
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -32,7 +99,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -45,6 +113,13 @@ paths:
       consumes:
       - application/json
       description: This endpoint for delete actor
+      parameters:
+      - description: Данные фильма (используется только 'id')
+        in: body
+        name: actor
+        required: true
+        schema:
+          $ref: '#/definitions/models.Actor'
       produces:
       - application/json
       responses:
@@ -60,11 +135,13 @@ paths:
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -72,7 +149,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -85,6 +163,13 @@ paths:
       consumes:
       - application/json
       description: This endpoint for delete film
+      parameters:
+      - description: Данные фильма (используется 'id')
+        in: body
+        name: film
+        required: true
+        schema:
+          $ref: '#/definitions/models.Film'
       produces:
       - application/json
       responses:
@@ -100,11 +185,13 @@ paths:
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -112,7 +199,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -125,6 +213,13 @@ paths:
       consumes:
       - application/json
       description: This endpoint for edit actor's info
+      parameters:
+      - description: Данные фильма (используются все поля, кроме 'id')
+        in: body
+        name: actor
+        required: true
+        schema:
+          $ref: '#/definitions/models.Actor'
       produces:
       - application/json
       responses:
@@ -140,11 +235,13 @@ paths:
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -152,7 +249,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -165,6 +263,13 @@ paths:
       consumes:
       - application/json
       description: This endpoint for edit film's info
+      parameters:
+      - description: Данные фильма (используются все поля, кроме 'id')
+        in: body
+        name: film
+        required: true
+        schema:
+          $ref: '#/definitions/models.Film'
       produces:
       - application/json
       responses:
@@ -180,11 +285,13 @@ paths:
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -192,7 +299,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -209,18 +317,22 @@ paths:
         "200":
           description: JSON с фильмами
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/models.FilmToActor'
+            type: array
         "400":
           description: JSON с ошибками, либо строка(в зависимости от возвращающего
             метода)
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -228,7 +340,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -245,18 +358,22 @@ paths:
         "200":
           description: JSON с фильмами
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/models.FilmToActor'
+            type: array
         "400":
           description: JSON с ошибками, либо строка(в зависимости от возвращающего
             метода)
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -264,7 +381,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -277,6 +395,14 @@ paths:
       consumes:
       - application/json
       description: This endpoint for login
+      parameters:
+      - description: Данные пользователя для аутентификации (используются только поля
+          email и password)
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
       produces:
       - application/json
       responses:
@@ -290,7 +416,8 @@ paths:
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -298,7 +425,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       summary: Login
@@ -315,7 +443,8 @@ paths:
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -323,7 +452,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -336,6 +466,13 @@ paths:
       consumes:
       - application/json
       description: This endpoint for adding new actor
+      parameters:
+      - description: Данные фильма (используются все поля, кроме 'id')
+        in: body
+        name: actor
+        required: true
+        schema:
+          $ref: '#/definitions/models.Actor'
       produces:
       - application/json
       responses:
@@ -351,11 +488,13 @@ paths:
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -363,7 +502,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -376,6 +516,13 @@ paths:
       consumes:
       - application/json
       description: This endpoint for adding new film
+      parameters:
+      - description: Данные фильма (используются все поля, кроме 'id')
+        in: body
+        name: film
+        required: true
+        schema:
+          $ref: '#/definitions/models.Film'
       produces:
       - application/json
       responses:
@@ -384,18 +531,22 @@ paths:
         "206":
           description: JSON с ошибками(если такие имеются)
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/models.ErrorInfo'
+            type: array
         "400":
           description: JSON с ошибками, либо строка(в зависимости от возвращающего
             метода)
           schema:
             type: string
         "401":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -403,7 +554,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       security:
@@ -416,6 +568,14 @@ paths:
       consumes:
       - application/json
       description: This endpoint for registration
+      parameters:
+      - description: Данные пользователя для регистрации (используются все поля, кроме
+          'id')
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
       produces:
       - application/json
       responses:
@@ -427,7 +587,8 @@ paths:
           schema:
             type: string
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -435,7 +596,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       summary: Registration
@@ -448,15 +610,21 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Ничего
         "403":
-          description: Forbidden
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
         "404":
-          description: Not Found
+          description: Ничего
         "405":
-          description: Method Not Allowed
+          description: Ничего
         "500":
-          description: Internal Server Error
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
+          schema:
+            type: string
       summary: SignIn Page
       tags:
       - auth
@@ -469,7 +637,8 @@ paths:
         "200":
           description: Ничего
         "403":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
         "404":
@@ -477,7 +646,8 @@ paths:
         "405":
           description: Ничего
         "500":
-          description: JSON с ошибками
+          description: JSON с ошибками, либо строка(в зависимости от возвращающего
+            метода)
           schema:
             type: string
       summary: SignUp Page

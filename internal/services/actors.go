@@ -16,13 +16,10 @@ import (
 // @Tags actors
 // @Description This endpoint for getting actors
 // @Produce json
-// @Success 200 {string} string "JSON с актёрами"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405	"Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Success 200 {array} models.ActorToFilm "JSON с актёрами"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /actors [get]
 func GetActors(w http.ResponseWriter, r *http.Request) {
 
@@ -113,14 +110,12 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for adding new actor
 // @Accept json
 // @Produce json
+// @Param actor body models.Actor true "Данные фильма (используются все поля, кроме 'id')"
 // @Success 201 "Ничего"
 // @Success 206 {string} string "JSON с ошибками(если такие имеются)"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405 "Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /new-actor [post]
 func AddNewActor(w http.ResponseWriter, r *http.Request) {
 
@@ -252,14 +247,12 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for edit actor's info
 // @Accept json
 // @Produce json
+// @Param actor body models.Actor true "Данные фильма (используются все поля, кроме 'id')"
 // @Success 200 "Ничего"
 // @Success 206 {string} string "JSON с ошибками(если такие имеются)"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405 "Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /edit-actor [put]
 func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 
@@ -391,14 +384,12 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for delete actor
 // @Accept json
 // @Produce json
+// @Param actor body models.Actor true "Данные фильма (используется только 'id')"
 // @Success 200 "Ничего"
 // @Success 206 {string} string "JSON с ошибками(если такие имеются)"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405 "Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Failure 400,401,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /delete-actor [delete]
 func DeleteActor(w http.ResponseWriter, r *http.Request) {
 

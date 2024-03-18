@@ -13,11 +13,10 @@ import (
 // @Tags auth
 // @Description This endpoint for sign-in page
 // @Produce json
-// @Success 200
-// @Failure 403
-// @Failure 404
-// @Failure 405
-// @Failure 500
+// @Success 200 "Ничего"
+// @Failure 403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /sign-in [get]
 func SignIn(w http.ResponseWriter, r *http.Request) {
 	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
@@ -64,12 +63,11 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 // @Description This endpoint for login
 // @Accept json
 // @Produce json
+// @Param user body models.User true "Данные пользователя для аутентификации (используются только поля email и password)"
 // @Success 200 {string} string "JSON с токеном"
-// @Failure 400 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
-// @Failure 403 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405 "Ничего"
-// @Failure 500	{string} string "JSON с ошибками"
+// @Failure 400,403 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500	{string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /login [post]
 func Login(w http.ResponseWriter, r *http.Request) {
 

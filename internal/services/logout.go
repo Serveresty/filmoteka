@@ -14,10 +14,9 @@ import (
 // @Description This endpoint for Logout
 // @Produce json
 // @Success 200 {string} string "JSON с сообщением"
-// @Failure 401 {string} string "JSON с ошибками"
-// @Failure 404 "Ничего"
-// @Failure 405 "Ничего"
-// @Failure 500 {string} string "JSON с ошибками"
+// @Failure 401 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
+// @Failure 404,405 "Ничего"
+// @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /logout [post]
 func Logout(w http.ResponseWriter, r *http.Request) {
 

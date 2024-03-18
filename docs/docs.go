@@ -34,7 +34,10 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON с актёрами",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ActorToFilm"
+                            }
                         }
                     },
                     "400": {
@@ -44,13 +47,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -62,7 +65,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -88,6 +91,17 @@ const docTemplate = `{
                     "actors"
                 ],
                 "summary": "DeleteActor",
+                "parameters": [
+                    {
+                        "description": "Данные фильма (используется только 'id')",
+                        "name": "actor",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Actor"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Ничего"
@@ -105,13 +119,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -123,7 +137,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -149,6 +163,17 @@ const docTemplate = `{
                     "films"
                 ],
                 "summary": "DeleteFilm",
+                "parameters": [
+                    {
+                        "description": "Данные фильма (используется 'id')",
+                        "name": "film",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Film"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Ничего"
@@ -166,13 +191,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -184,7 +209,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -210,6 +235,17 @@ const docTemplate = `{
                     "actors"
                 ],
                 "summary": "EditInfoActor",
+                "parameters": [
+                    {
+                        "description": "Данные фильма (используются все поля, кроме 'id')",
+                        "name": "actor",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Actor"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Ничего"
@@ -227,13 +263,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -245,7 +281,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -271,6 +307,17 @@ const docTemplate = `{
                     "films"
                 ],
                 "summary": "EditInfoFilm",
+                "parameters": [
+                    {
+                        "description": "Данные фильма (используются все поля, кроме 'id')",
+                        "name": "film",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Film"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Ничего"
@@ -288,13 +335,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -306,7 +353,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -333,7 +380,10 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON с фильмами",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FilmToActor"
+                            }
                         }
                     },
                     "400": {
@@ -343,13 +393,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -361,7 +411,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -388,7 +438,10 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON с фильмами",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FilmToActor"
+                            }
                         }
                     },
                     "400": {
@@ -398,13 +451,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -416,7 +469,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -437,6 +490,17 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Данные пользователя для аутентификации (используются только поля email и password)",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "JSON с токеном",
@@ -451,7 +515,7 @@ const docTemplate = `{
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -463,7 +527,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -494,7 +558,7 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -506,7 +570,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -532,6 +596,17 @@ const docTemplate = `{
                     "actors"
                 ],
                 "summary": "AddNewActor",
+                "parameters": [
+                    {
+                        "description": "Данные фильма (используются все поля, кроме 'id')",
+                        "name": "actor",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Actor"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Ничего"
@@ -549,13 +624,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -567,7 +642,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -593,6 +668,17 @@ const docTemplate = `{
                     "films"
                 ],
                 "summary": "AddNewFilm",
+                "parameters": [
+                    {
+                        "description": "Данные фильма (используются все поля, кроме 'id')",
+                        "name": "film",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Film"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Ничего"
@@ -600,7 +686,10 @@ const docTemplate = `{
                     "206": {
                         "description": "JSON с ошибками(если такие имеются)",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ErrorInfo"
+                            }
                         }
                     },
                     "400": {
@@ -610,13 +699,13 @@ const docTemplate = `{
                         }
                     },
                     "401": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -628,7 +717,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -649,6 +738,17 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "Registration",
+                "parameters": [
+                    {
+                        "description": "Данные пользователя для регистрации (используются все поля, кроме 'id')",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -660,7 +760,7 @@ const docTemplate = `{
                         }
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -672,7 +772,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -692,19 +792,25 @@ const docTemplate = `{
                 "summary": "SignIn Page",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Ничего"
                     },
                     "403": {
-                        "description": "Forbidden"
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     "404": {
-                        "description": "Not Found"
+                        "description": "Ничего"
                     },
                     "405": {
-                        "description": "Method Not Allowed"
+                        "description": "Ничего"
                     },
                     "500": {
-                        "description": "Internal Server Error"
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -724,7 +830,7 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "403": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
@@ -736,11 +842,109 @@ const docTemplate = `{
                         "description": "Ничего"
                     },
                     "500": {
-                        "description": "JSON с ошибками",
+                        "description": "JSON с ошибками, либо строка(в зависимости от возвращающего метода)",
                         "schema": {
                             "type": "string"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Actor": {
+            "type": "object",
+            "properties": {
+                "birth_date": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ActorToFilm": {
+            "type": "object",
+            "properties": {
+                "actors": {
+                    "$ref": "#/definitions/models.Actor"
+                },
+                "movies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Film"
+                    }
+                }
+            }
+        },
+        "models.ErrorInfo": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Film": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "rate": {
+                    "type": "number"
+                },
+                "release_date": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.FilmToActor": {
+            "type": "object",
+            "properties": {
+                "actors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Actor"
+                    }
+                },
+                "movies": {
+                    "$ref": "#/definitions/models.Film"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
                 }
             }
         }
