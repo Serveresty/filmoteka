@@ -1,0 +1,28 @@
+INFO: 2024/03/17 02:23:01 server starts on: localhost:8080
+INFO: 2024/03/17 02:23:38 Handling GET request for: /sign-up
+INFO: 2024/03/17 02:23:38 GET /sign-upStatus: OK
+INFO: 2024/03/17 02:24:13 Handling GET request for: /sign-up
+INFO: 2024/03/17 02:24:13 GET /sign-up Status: Forbidden Details: {"error":"Already authorized"}
+INFO: 2024/03/17 22:28:41 server starts on: localhost:8080
+INFO: 2024/03/17 22:30:48 server starts on: localhost:8080
+INFO: 2024/03/17 22:34:57 server starts on: localhost:8080
+INFO: 2024/03/17 22:35:50 server starts on: localhost:8080
+INFO: 2024/03/17 22:36:44 server starts on: localhost:8080
+INFO: 2024/03/17 22:37:21 server starts on: localhost:8080
+INFO: 2024/03/17 22:40:09 server starts on: localhost:8080
+INFO: 2024/03/17 22:44:02 server starts on: localhost:8080
+INFO: 2024/03/17 22:44:19 server starts on: localhost:8080
+INFO: 2024/03/17 22:44:45 server starts on: localhost:8080
+INFO: 2024/03/17 22:45:54 server starts on: localhost:8080
+INFO: 2024/03/17 22:46:35 server starts on: localhost:8080
+INFO: 2024/03/17 22:49:40 server starts on: localhost:8080
+INFO: 2024/03/18 03:17:51 server starts on: localhost:8080
+INFO: 2024/03/18 03:18:23 server starts on: localhost:8080
+INFO: 2024/03/18 03:21:09 server starts on: localhost:8080
+INFO: 2024/03/18 03:24:38 server starts on: localhost:8080
+INFO: 2024/03/18 03:29:22 server starts on: localhost:8080
+INFO: 2024/03/18 03:31:30 server starts on: localhost:8080
+INFO: 2024/03/18 03:56:14 server starts on: localhost:8080
+INFO: 2024/03/18 04:37:28 server starts on: localhost:8080
+INFO: 2024/03/18 04:37:47 Handling POST request for: /login
+INFO: 2024/03/18 04:37:47 POST | /login | Status: OK | Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSb2xlIjpbInVzZXIiLCJhZG1pbiJdLCJzdWIiOiIxIn0._oXiRDQ0Z82_HDyjwHD_fwH7vPek6fEEmlFWMZvr3Fg
