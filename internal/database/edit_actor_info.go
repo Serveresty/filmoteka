@@ -9,20 +9,20 @@ func EditActorInfo(actorToFilm models.ActorToFilm) []models.ErrorInfo {
 		WHERE actor_id=$4;`,
 		actorToFilm.Actors.Name, actorToFilm.Actors.Gender, actorToFilm.Actors.BirthDate, actorToFilm.Actors.ID)
 	if err != nil {
-		errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
+		errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "error while update actor's info"})
 		return errorsPull
 	}
 
 	_, err = DB.Exec(`DELETE FROM actors_films WHERE actor_id=$1`, actorToFilm.Actors.ID)
 	if err != nil {
-		errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
+		errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "error while update actor's info on delete"})
 		return errorsPull
 	}
 
 	for _, flm := range actorToFilm.Movies {
 		_, err = DB.Exec(`INSERT INTO actors_films (actor_id, film_id) VALUE($1, $2)`, actorToFilm.Actors.ID, flm.ID)
 		if err != nil {
-			errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
+			errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "error while update actor's info on insert"})
 		}
 	}
 

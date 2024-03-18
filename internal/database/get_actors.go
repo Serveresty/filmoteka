@@ -2,7 +2,6 @@ package database
 
 import (
 	"filmoteka/internal/models"
-	"fmt"
 )
 
 func GetActors() ([]models.ActorToFilm, error) {
@@ -44,8 +43,6 @@ func GetActors() ([]models.ActorToFilm, error) {
 		}
 	}
 	if err := rows.Err(); err != nil {
-		fmt.Println(err)
-		fmt.Println(err.Error())
 		return nil, err
 	}
 

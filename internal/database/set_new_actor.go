@@ -14,14 +14,14 @@ func SetNewActor(actorToFilm models.ActorToFilm) []models.ErrorInfo {
 
 	err := row.Scan(&actor)
 	if err != sql.ErrNoRows {
-		errorsPull = append(errorsPull, models.ErrorInfo{Message: "actor already has in table"})
+		errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "actor already has in table"})
 		return errorsPull
 	}
 
 	var actorId int
 	err = DB.QueryRow(`INSERT INTO actors (name, gender, birth_date) VALUES ($1, $2, $3) RETURNING actor_id`, actorToFilm.Actors.Name, actorToFilm.Actors.Gender, actorToFilm.Actors.BirthDate).Scan(&actorId)
 	if err != nil {
-		errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
+		errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "error while insert actor"})
 		return errorsPull
 	}
 
@@ -43,7 +43,7 @@ func SetNewActor(actorToFilm models.ActorToFilm) []models.ErrorInfo {
 			INSERT INTO films (name, description, release_date, rate) VALUES ($1, $2, $3) RETURNING film_id`,
 			val.Title, val.Description, val.ReleaseDate, val.Rate).Scan(&filmId)
 		if err != nil {
-			errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
+			errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "error while insert film"})
 			return errorsPull
 		}
 		filmsIds = append(filmsIds, filmId)
@@ -52,7 +52,7 @@ func SetNewActor(actorToFilm models.ActorToFilm) []models.ErrorInfo {
 	for _, flm := range filmsIds {
 		_, err = DB.Exec(`INSERT INTO actors_films (actor_id, film_id) VALUES ($1, $2)`, flm, actorId)
 		if err != nil {
-			errorsPull = append(errorsPull, models.ErrorInfo{Message: err.Error()})
+			errorsPull = append(errorsPull, models.ErrorInfo{Type: "error", Message: "error while insert actors films"})
 		}
 	}
 
