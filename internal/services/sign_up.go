@@ -91,10 +91,14 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 // @Router /registration [post]
 func Registration(w http.ResponseWriter, r *http.Request) {
 
-	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	if !IsTesting {
+		logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	}
 
 	if r.URL.Path != "/registration" {
-		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /registration")
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /registration")
+		}
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -102,7 +106,9 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 
 	if r.Method != "POST" {
-		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected POST for URL: " + r.URL.Path)
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected POST for URL: " + r.URL.Path)
+		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -111,19 +117,23 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
-		} else {
-			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		if !IsTesting {
+			if status == http.StatusInternalServerError {
+				logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			} else {
+				logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			}
 		}
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
-			logger.WarningLogger.Println(
-				r.Method + " | " + r.URL.Path +
-					" | Status: " + http.StatusText(http.StatusInternalServerError) +
-					" | Error: " + err.Error() +
-					" | Details: " + "error while marshal array of errors")
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
 
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
@@ -136,11 +146,13 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 
 	err1 := json.NewDecoder(r.Body).Decode(&user)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error decoding json")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error decoding json")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error decoding json"))
@@ -148,10 +160,12 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !jwt.ValidateAuthData(&user) {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Details: " + "wrong input data")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Details: " + "wrong input data")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error wrong input data"))
@@ -160,11 +174,13 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 
 	hashPass, err1 := jwt.HashPassword(user.Password)
 	if err1 != nil {
-		logger.WarningLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusInternalServerError) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while hashing password")
+		if !IsTesting {
+			logger.WarningLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusInternalServerError) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while hashing password")
+		}
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("error while hashing password"))
 		return
@@ -174,17 +190,21 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 
 	err1 = database.CreateNewUser(&user)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "user already created with same data")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "user already created with same data")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error user already created with same data"))
 		return
 	}
 
-	logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusCreated))
+	if !IsTesting {
+		logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusCreated))
+	}
 	w.WriteHeader(http.StatusCreated)
 }

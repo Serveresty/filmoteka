@@ -23,16 +23,22 @@ import (
 // @Router /actors [get]
 func GetActors(w http.ResponseWriter, r *http.Request) {
 
-	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	if !IsTesting {
+		logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	}
 
 	if r.URL.Path != "/actors" {
-		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /actors")
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /actors")
+		}
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
 	if r.Method != "GET" {
-		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected GET for URL: " + r.URL.Path)
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected GET for URL: " + r.URL.Path)
+		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -41,14 +47,24 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
-		} else {
-			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		if !IsTesting {
+			if status == http.StatusInternalServerError {
+				logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			} else {
+				logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			}
 		}
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
+
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
@@ -60,12 +76,14 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 
 	_, err1 := jwt.ParseToken(token)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " +
-				r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "not valid token")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " +
+					r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "not valid token")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error not valid token"))
@@ -74,12 +92,14 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 
 	actrs, err1 := database.GetActors()
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " +
-				r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while getting actors")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " +
+					r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while getting actors")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error while getting actors"))
@@ -88,12 +108,14 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 
 	jsonResp, err1 := json.Marshal(actrs)
 	if err1 != nil {
-		logger.WarningLogger.Println(
-			r.Method + " | " +
-				r.URL.Path + " | Status: " +
-				http.StatusText(http.StatusInternalServerError) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while marhal films")
+		if !IsTesting {
+			logger.WarningLogger.Println(
+				r.Method + " | " +
+					r.URL.Path + " | Status: " +
+					http.StatusText(http.StatusInternalServerError) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while marhal films")
+		}
 
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("error while marhal actors"))
@@ -119,16 +141,22 @@ func GetActors(w http.ResponseWriter, r *http.Request) {
 // @Router /new-actor [post]
 func AddNewActor(w http.ResponseWriter, r *http.Request) {
 
-	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	if !IsTesting {
+		logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	}
 
 	if r.URL.Path != "/new-actor" {
-		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /new-actor")
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /new-actor")
+		}
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
 	if r.Method != "POST" {
-		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected POST for URL: " + r.URL.Path)
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected POST for URL: " + r.URL.Path)
+		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -137,14 +165,24 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
-		} else {
-			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		if !IsTesting {
+			if status == http.StatusInternalServerError {
+				logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			} else {
+				logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			}
 		}
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
+
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
@@ -156,12 +194,14 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 
 	claims, err1 := jwt.ParseToken(token)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " +
-				r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "not valid token")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " +
+					r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "not valid token")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error not valid token"))
@@ -169,29 +209,35 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !jwt.HasUserAccess(*claims) {
-		logger.InfoLogger.Println(
-			r.Method + " | " +
-				r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusForbidden) +
-				" | Details: " + "access denied")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " +
+					r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusForbidden) +
+					" | Details: " + "access denied")
+		}
 
 		w.WriteHeader(http.StatusForbidden)
 		w.Write([]byte("error access denied"))
 		return
 	}
-	logger.InfoLogger.Println(
-		r.Method + " | " +
-			r.URL.Path +
-			" | Status: " + http.StatusText(http.StatusOK) +
-			" | Details: " + "access granted for userID: " + claims.Id)
+	if !IsTesting {
+		logger.InfoLogger.Println(
+			r.Method + " | " +
+				r.URL.Path +
+				" | Status: " + http.StatusText(http.StatusOK) +
+				" | Details: " + "access granted for userID: " + claims.Id)
+	}
 
 	body, err1 := io.ReadAll(r.Body)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while reading request body")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while reading request body")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error while reading request body"))
@@ -200,11 +246,13 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 
 	var actorToFilm models.ActorToFilm
 	if err1 := json.Unmarshal(body, &actorToFilm); err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while parsing json")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while parsing json")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error while parsing json"))
@@ -215,29 +263,35 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 	if errs != nil {
 		errResp, err1 := json.Marshal(errs)
 		if err1 != nil {
-			logger.WarningLogger.Println(
-				r.Method + " | " + r.URL.Path +
-					" | Status: " + http.StatusText(http.StatusInternalServerError) +
-					" | Error: " + err1.Error() +
-					" | Details: " + "error while marshal array of errors")
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err1.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
 
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
 		}
 
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusPartialContent) +
-				" | Error: " + fmt.Sprintf("%v", errs) +
-				" | Details: " + "request success with troubles")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusPartialContent) +
+					" | Error: " + fmt.Sprintf("%v", errs) +
+					" | Details: " + "request success with troubles")
+		}
 
 		w.WriteHeader(http.StatusPartialContent)
 		w.Write(errResp)
 		return
 	}
 
-	logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusCreated))
+	if !IsTesting {
+		logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusCreated))
+	}
 	w.WriteHeader(http.StatusCreated)
 }
 
@@ -256,16 +310,22 @@ func AddNewActor(w http.ResponseWriter, r *http.Request) {
 // @Router /edit-actor [put]
 func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 
-	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	if !IsTesting {
+		logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	}
 
 	if r.URL.Path != "/edit-actor" {
-		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /edit-actor")
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /edit-actor")
+		}
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
 	if r.Method != "PUT" {
-		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected PUT for URL: " + r.URL.Path)
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected PUT for URL: " + r.URL.Path)
+		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -274,14 +334,24 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
-		} else {
-			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		if !IsTesting {
+			if status == http.StatusInternalServerError {
+				logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			} else {
+				logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			}
 		}
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
+
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
@@ -293,12 +363,14 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 
 	claims, err1 := jwt.ParseToken(token)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " +
-				r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "not valid token")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " +
+					r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "not valid token")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error not valid token"))
@@ -306,29 +378,35 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !jwt.HasUserAccess(*claims) {
-		logger.InfoLogger.Println(
-			r.Method + " | " +
-				r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusForbidden) +
-				" | Details: " + "access denied")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " +
+					r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusForbidden) +
+					" | Details: " + "access denied")
+		}
 
 		w.WriteHeader(http.StatusForbidden)
 		w.Write([]byte("error access denied"))
 		return
 	}
-	logger.InfoLogger.Println(
-		r.Method + " | " +
-			r.URL.Path +
-			" | Status: " + http.StatusText(http.StatusOK) +
-			" | Details: " + "access granted for userID: " + claims.Id)
+	if !IsTesting {
+		logger.InfoLogger.Println(
+			r.Method + " | " +
+				r.URL.Path +
+				" | Status: " + http.StatusText(http.StatusOK) +
+				" | Details: " + "access granted for userID: " + claims.Id)
+	}
 
 	body, err1 := io.ReadAll(r.Body)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while reading request body")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while reading request body")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error while reading request body"))
@@ -337,11 +415,13 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 
 	var actorToFilm models.ActorToFilm
 	if err1 := json.Unmarshal(body, &actorToFilm); err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while parsing json")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while parsing json")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error while parsing json"))
@@ -352,29 +432,35 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 	if errr != nil {
 		errResp, err1 := json.Marshal(errr)
 		if err1 != nil {
-			logger.WarningLogger.Println(
-				r.Method + " | " + r.URL.Path +
-					" | Status: " + http.StatusText(http.StatusInternalServerError) +
-					" | Error: " + err1.Error() +
-					" | Details: " + "error while marshal array of errors")
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err1.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
 
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
 		}
 
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusPartialContent) +
-				" | Error: " + fmt.Sprintf("%v", errr) +
-				" | Details: " + "request success with troubles")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusPartialContent) +
+					" | Error: " + fmt.Sprintf("%v", errr) +
+					" | Details: " + "request success with troubles")
+		}
 
 		w.WriteHeader(http.StatusPartialContent)
 		w.Write(errResp)
 		return
 	}
 
-	logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusOK))
+	if !IsTesting {
+		logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusOK))
+	}
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -393,16 +479,22 @@ func EditInfoActor(w http.ResponseWriter, r *http.Request) {
 // @Router /delete-actor [delete]
 func DeleteActor(w http.ResponseWriter, r *http.Request) {
 
-	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	if !IsTesting {
+		logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	}
 
 	if r.URL.Path != "/delete-actor" {
-		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /delete-actor")
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /delete-actor")
+		}
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
 	if r.Method != "DELETE" {
-		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected DELETE for URL: " + r.URL.Path)
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected DELETE for URL: " + r.URL.Path)
+		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -411,14 +503,24 @@ func DeleteActor(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
-		} else {
-			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		if !IsTesting {
+			if status == http.StatusInternalServerError {
+				logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			} else {
+				logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			}
 		}
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
+
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
@@ -430,12 +532,14 @@ func DeleteActor(w http.ResponseWriter, r *http.Request) {
 
 	claims, err1 := jwt.ParseToken(token)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " +
-				r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "not valid token")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " +
+					r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "not valid token")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error not valid token"))
@@ -443,29 +547,35 @@ func DeleteActor(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !jwt.HasUserAccess(*claims) {
-		logger.InfoLogger.Println(
-			r.Method + " | " +
-				r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusForbidden) +
-				" | Details: " + "access denied")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " +
+					r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusForbidden) +
+					" | Details: " + "access denied")
+		}
 
 		w.WriteHeader(http.StatusForbidden)
 		w.Write([]byte("error access denied"))
 		return
 	}
-	logger.InfoLogger.Println(
-		r.Method + " | " +
-			r.URL.Path +
-			" | Status: " + http.StatusText(http.StatusOK) +
-			" | Details: " + "access granted for userID: " + claims.Id)
+	if !IsTesting {
+		logger.InfoLogger.Println(
+			r.Method + " | " +
+				r.URL.Path +
+				" | Status: " + http.StatusText(http.StatusOK) +
+				" | Details: " + "access granted for userID: " + claims.Id)
+	}
 
 	body, err1 := io.ReadAll(r.Body)
 	if err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while reading request body")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while reading request body")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error while reading request body"))
@@ -474,11 +584,13 @@ func DeleteActor(w http.ResponseWriter, r *http.Request) {
 
 	var actor models.Actor
 	if err1 := json.Unmarshal(body, &actor); err1 != nil {
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusBadRequest) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while parsing json")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusBadRequest) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while parsing json")
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("error while parsing json"))
@@ -489,28 +601,34 @@ func DeleteActor(w http.ResponseWriter, r *http.Request) {
 	if errs != nil {
 		errResp, err1 := json.Marshal(errs)
 		if err1 != nil {
-			logger.WarningLogger.Println(
-				r.Method + " | " + r.URL.Path +
-					" | Status: " + http.StatusText(http.StatusInternalServerError) +
-					" | Error: " + err1.Error() +
-					" | Details: " + "error while marshal array of errors")
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err1.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
 
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
 		}
 
-		logger.InfoLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusPartialContent) +
-				" | Error: " + fmt.Sprintf("%v", errs) +
-				" | Details: " + "request success with troubles")
+		if !IsTesting {
+			logger.InfoLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusPartialContent) +
+					" | Error: " + fmt.Sprintf("%v", errs) +
+					" | Details: " + "request success with troubles")
+		}
 
 		w.WriteHeader(http.StatusPartialContent)
 		w.Write(errResp)
 		return
 	}
 
-	logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusOK))
+	if !IsTesting {
+		logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(http.StatusOK))
+	}
 	w.WriteHeader(http.StatusOK)
 }

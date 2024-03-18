@@ -20,16 +20,22 @@ import (
 // @Router /logout [post]
 func Logout(w http.ResponseWriter, r *http.Request) {
 
-	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	if !IsTesting {
+		logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	}
 
 	if r.URL.Path != "/logout" {
-		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /logout")
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /logout")
+		}
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
 	if r.Method != "POST" {
-		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected POST for URL: " + r.URL.Path)
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected POST for URL: " + r.URL.Path)
+		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -38,19 +44,23 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
-		} else {
-			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		if !IsTesting {
+			if status == http.StatusInternalServerError {
+				logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			} else {
+				logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			}
 		}
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
-			logger.WarningLogger.Println(
-				r.Method + " | " + r.URL.Path +
-					" | Status: " + http.StatusText(http.StatusInternalServerError) +
-					" | Error: " + err.Error() +
-					" | Details: " + "error while marshal array of errors")
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
 
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
@@ -68,11 +78,13 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	pull = append(pull, models.ErrorInfo{Type: "success", Message: "token removed"})
 	jsonResp, err1 := json.Marshal(pull)
 	if err1 != nil {
-		logger.WarningLogger.Println(
-			r.Method + " | " + r.URL.Path +
-				" | Status: " + http.StatusText(http.StatusInternalServerError) +
-				" | Error: " + err1.Error() +
-				" | Details: " + "error while marshal array of errors")
+		if !IsTesting {
+			logger.WarningLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusInternalServerError) +
+					" | Error: " + err1.Error() +
+					" | Details: " + "error while marshal array of errors")
+		}
 
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("error while marhal errs"))
