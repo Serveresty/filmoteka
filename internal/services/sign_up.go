@@ -45,6 +45,12 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
+			logger.WarningLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusInternalServerError) +
+					" | Error: " + err.Error() +
+					" | Details: " + "error while marshal array of errors")
+
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
@@ -99,6 +105,12 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
+			logger.WarningLogger.Println(
+				r.Method + " | " + r.URL.Path +
+					" | Status: " + http.StatusText(http.StatusInternalServerError) +
+					" | Error: " + err.Error() +
+					" | Details: " + "error while marshal array of errors")
+
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
 			return
