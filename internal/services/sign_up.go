@@ -9,6 +9,8 @@ import (
 	"net/http"
 )
 
+var IsTesting = false
+
 // @Summary SignUp Page
 // @Tags auth
 // @Description This endpoint for sign-up page
@@ -19,16 +21,22 @@ import (
 // @Failure 500 {string} string "JSON с ошибками, либо строка(в зависимости от возвращающего метода)"
 // @Router /sign-up [get]
 func SignUp(w http.ResponseWriter, r *http.Request) {
-	logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	if !IsTesting {
+		logger.InfoLogger.Println("Handling " + r.Method + " request for: " + r.URL.Path)
+	}
 
 	if r.URL.Path != "/sign-up" {
-		logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /sign-up")
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request URL: " + r.URL.Path + ", expected URL: /sign-up")
+		}
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
 	if r.Method != "GET" {
-		logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected GET for URL: " + r.URL.Path)
+		if !IsTesting {
+			logger.InfoLogger.Println("Invalid request method: " + r.Method + ", expected GET for URL: " + r.URL.Path)
+		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -37,19 +45,23 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	status, err := jwt.CheckAuthorization(token, path)
 	if err != nil {
-		if status == http.StatusInternalServerError {
-			logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
-		} else {
-			logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+		if !IsTesting {
+			if status == http.StatusInternalServerError {
+				logger.WarningLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			} else {
+				logger.InfoLogger.Printf(r.Method+" | "+r.URL.Path+" | Status: "+http.StatusText(status)+" | Details: %v", err)
+			}
 		}
 
 		jsonResp, err := json.Marshal(err)
 		if err != nil {
-			logger.WarningLogger.Println(
-				r.Method + " | " + r.URL.Path +
-					" | Status: " + http.StatusText(http.StatusInternalServerError) +
-					" | Error: " + err.Error() +
-					" | Details: " + "error while marshal array of errors")
+			if !IsTesting {
+				logger.WarningLogger.Println(
+					r.Method + " | " + r.URL.Path +
+						" | Status: " + http.StatusText(http.StatusInternalServerError) +
+						" | Error: " + err.Error() +
+						" | Details: " + "error while marshal array of errors")
+			}
 
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while marhal errs"))
@@ -60,7 +72,9 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status))
+	if !IsTesting {
+		logger.InfoLogger.Println(r.Method + " | " + r.URL.Path + " | Status: " + http.StatusText(status))
+	}
 	w.WriteHeader(status)
 }
 
