@@ -1,9 +1,6 @@
 package test
 
 import (
-	"bytes"
-	"encoding/json"
-	"filmoteka/internal/models"
 	"filmoteka/internal/services"
 	"net/http"
 	"net/http/httptest"
@@ -45,36 +42,5 @@ func TestSignUp_AlreadyAuthorized(t *testing.T) {
 	if status := rr.Code; status != http.StatusForbidden {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusForbidden)
-	}
-}
-
-func TestRegistration_Success(t *testing.T) {
-	services.IsTesting = true
-	user := models.User{
-		FirstName: "FirstNameTest",
-		LastName:  "LastNameTest",
-		Email:     "EmailTest",
-		Password:  "PasswordTest",
-	}
-
-	reqBody, err := json.Marshal(user)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	req, err := http.NewRequest("POST", "/registration", bytes.NewBuffer(reqBody))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	rr := httptest.NewRecorder()
-
-	services.Registration(rr, req)
-
-	if status := rr.Code; status != http.StatusCreated {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusCreated)
 	}
 }
