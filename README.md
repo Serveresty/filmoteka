@@ -2,7 +2,7 @@
 <p>Решение тестового задания на позицию Go-разработчик(Стажёр)</p>
 <hr />
 <h2>Задание</h2>
-<p><img src="![image](https://github.com/Serveresty/filmoteka/assets/99687697/af47f23a-27f9-4066-8939-8ebb79a4bda9)" /></p>
+<p><img src="https://github.com/Serveresty/filmoteka/assets/99687697/af47f23a-27f9-4066-8939-8ebb79a4bda9" /></p>
 <hr />
 <h2>Решение</h2>
 <p>Выполнение требований:</p>
